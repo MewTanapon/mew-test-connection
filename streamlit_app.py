@@ -7,19 +7,16 @@ from google.cloud import storage
 # gcs_file_path = 'mew_test_connection_bucket/file/status.csv'
 # print(conn)
 # df = conn.read(gcs_file_path, input_format="csv", ttl=600)
-# service_account_info = st.secrets["gcp_service_account"]
-# credentials = service_account.Credentials.from_service_account_info(service_account_info)
-# client = storage.Client(credentials=credentials)
-# buckets = list(client.list_buckets())
+service_account_info = st.secrets["gcp_service_account"]
+credentials = service_account.Credentials.from_service_account_info(service_account_info)
+client = storage.Client(credentials=credentials)
+buckets = list(client.list_buckets())
+st.write(buckets)
 
+project_id = 'mew-test-connection-project'
+bucket_name = 'mew_test_connection_bucket'
+file_path = 'file/status.csv'
 
-# project_id = 'mew-test-connection-project'
-# bucket_name = 'mew_test_connection_bucket'
-# file_path = 'file/status.csv'
-
-# bucket = storage.Client(project=project_id).bucket(bucket_name)
-# df = bucket.blob(file_path)
-
-st.write(st.secrets)
-print(st.secrets)
-# st.write(df)
+bucket = storage.Client(project=project_id).bucket(bucket_name)
+df = bucket.blob(file_path)
+st.write(df)
