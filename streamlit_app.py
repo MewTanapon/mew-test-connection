@@ -2,6 +2,7 @@ import streamlit as st
 from st_files_connection import FilesConnection
 from google.oauth2 import service_account
 from google.cloud import storage
+import pandas as pd
 
 # conn = st.connection('gcs', type=FilesConnection)
 # gcs_file_path = 'mew_test_connection_bucket/file/status.csv'
@@ -18,5 +19,7 @@ bucket_name = 'mew_test_connection_bucket'
 file_path = 'file/status.csv'
 
 bucket = storage.Client(project=project_id).bucket(bucket_name)
-df = bucket.blob(file_path)
+blob = bucket.blob(file_path)
+content = blob.download_as_text()
+df = pd.read_csv(pd.compat.StringIO(content))
 st.write(df)
